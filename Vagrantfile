@@ -23,7 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provider :virtualbox do |vb|
     vb.name = "phonegap-vm"
-    vb.memory = 512
+    vb.memory = 3072
   end
 
   config.berkshelf.enabled = true
