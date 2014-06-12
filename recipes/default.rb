@@ -21,17 +21,23 @@ execute 'install_java' do
   EOH
 end
 
-# TODO: refactor to execute only if android command doesnt exist
 # http://developer.android.com/sdk/index.html
 # Download for other platforms | Adt bundle
-# execute 'install_android_bundle' do
-#   command <<-EOH
-#     mkdir -p ~/Development/android
-#     cd ~/Development/android
-#     wget http://dl.google.com/android/adt/22.6.2/adt-bundle-linux-x86_64-20140321.zip
-#     unzip adt-bundle-linux-x86_64-20140321.zip
-#   EOH
-# end
+execute 'install_android_bundle' do
+  user "vagrant"
+  group "vagrant"
+  cwd "/home/vagrant"
+  environment ({'HOME' => '/home/vagrant', 'USER' => 'vagrant'})
+  command <<-EOH
+    mkdir -p ~/Development/android
+    cd ~/Development/android
+    wget http://dl.google.com/android/adt/22.6.2/adt-bundle-linux-x86_64-20140321.zip
+    unzip adt-bundle-linux-x86_64-20140321.zip
+    touch .adt-bundle
+    android update sdk --no-ui
+  EOH
+  not_if do ::File.exists?('/home/vagrant/Development/android/.adt-bundle') end
+end
 
 # Added android sdk tools to PATH environment
 cookbook_file 'copy_bashrc' do

@@ -54,5 +54,4 @@ namespace :vagrant do
 end
 
 task :vagrant, [:cmd] => ["vagrant:after_run"] do
-  rtask "after_run"
 end
