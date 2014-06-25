@@ -24,31 +24,15 @@ include_recipe 'my-environment::locales'
 
 # Backend
 
-# Not valid for phonegap development
-# Install OpenJDK
-# execute 'install_open_jdk' do
-#   command <<-EOH
-#     apt-get install -y default-jre
-#     apt-get install -y default-jdk
-#     apt-get install -y ant
-#   EOH
-# end
-
-# execute 'install_java' do
-#   command <<-EOH
-#     sudo add-apt-repository ppa:webupd8team/java -y
-#     sudo apt-get update -y
-#     sudo apt-get install oracle-java7-installer -y
-#   EOH
-# end
-
 node.default['java']['install_flavor'] = 'oracle'
 node.default['java']['jdk_version'] = '7'
 node.default['java']['oracle']['accept_oracle_download_terms'] = true
 
 include_recipe 'java'
 
-execute 'add_32bit_support_on_64bit_os' do
+# This package contains runtime libraries for the ia32/i386 architecture,
+# configured for use on an amd64 or ia64 Debian system running a 64-bit kernel.
+execute 'add_runtime_libraries_i386' do
   command <<-EOH
     sudo apt-get install -y ia32-libs
   EOH
