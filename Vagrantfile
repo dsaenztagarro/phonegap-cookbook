@@ -20,10 +20,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box_url = "https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box"
 
   config.vm.network :private_network, type: "dhcp"
+  config.vm.network "forwarded_port", guest: 8000, host: 8000
+  config.vm.network "forwarded_port", guest: 8010, host: 8010
 
+  # USB support requires on host machine execute command:
+  # VBoxManage extpack install <Oracle_Virtualbox_extension_pack>
   config.vm.provider :virtualbox do |vb|
     vb.name = "phonegap-vm"
     vb.memory = 3072
+    vb.customize ["modifyvm", :id, "--usb", "on"]
+    vb.customize ["modifyvm", :id, "--usbehci", "on"]
   end
 
   config.berkshelf.enabled = true
