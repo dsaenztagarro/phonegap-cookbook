@@ -2,7 +2,7 @@
 # Cookbook Name:: phonegap
 # Recipe:: default
 #
-# Copyright (C) 2014 Redradix
+# Copyright (C) 2014 David Saenz Tagarro
 #
 # All rights reserved - Do Not Redistribute
 #
@@ -54,5 +54,33 @@ include_recipe 'nodejs'
 execute 'install_js_utils' do
   command <<-EOH
     npm install -g grunt-cli bower phonegap
+  EOH
+end
+
+# Project settings
+
+execute 'install_node_utils' do
+  command <<-EOH
+    npm install -g express-generator
+  EOH
+end
+
+execute 'install_mongodb' do
+  command <<-EOH
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+    echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
+    sudo apt-get update
+    sudo apt-get install mongodb-org
+    apt-get install mongodb-org=2.6.3 mongodb-org-server=2.6.3 mongodb-org-shell=2.6.3 mongodb-org-mongos=2.6.3 mongodb-org-tools=2.6.3
+  EOH
+end
+
+execute 'pin_version_mongodb' do
+  command <<-EOH
+    echo "mongodb-org hold" | sudo dpkg --set-selections
+    echo "mongodb-org-server hold" | sudo dpkg --set-selections
+    echo "mongodb-org-shell hold" | sudo dpkg --set-selections
+    echo "mongodb-org-mongos hold" | sudo dpkg --set-selections
+    echo "mongodb-org-tools hold" | sudo dpkg --set-selections
   EOH
 end

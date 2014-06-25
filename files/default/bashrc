@@ -111,3 +111,8 @@ fi
 # Add android sdk
 ANDROID_SDK=~/Development/android/adt-bundle-linux-x86_64-20140321/sdk/
 PATH=$ANDROID_SDK/tools:$ANDROID_SDK/platform-tools:$ANDROID_SDK/build-tools:$PATH
+
+alias mongod.start="sudo service mongod start"
+alias mongod.stop="sudo /etc/init.d/mongod stop"
+alias mongod.restart="sudo /etc/init.d/mongod restart"
+alias mongod.log="tail -n 20 -f /var/log/mongodb/mongod.log"
