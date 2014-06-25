@@ -11,13 +11,38 @@ include_recipe 'my-environment'
 include_recipe 'my-environment::permissions'
 include_recipe 'my-environment::gui'
 
+# Added android sdk tools to PATH environment
+cookbook_file 'copy_bashrc' do
+  path '/home/vagrant/.bashrc'
+  source 'bashrc'
+  owner 'vagrant'
+  group 'vagrant'
+  action :create
+end
+
 # Backend
+
+# Not valid for phonegap development
+# Install OpenJDK
+# execute 'install_open_jdk' do
+#   command <<-EOH
+#     apt-get install -y default-jre
+#     apt-get install -y default-jdk
+#     apt-get install -y ant
+#   EOH
+# end
 
 execute 'install_java' do
   command <<-EOH
-    apt-get install -y default-jre
-    apt-get install -y default-jdk
-    apt-get install -y ant
+    sudo add-apt-repository ppa:webupd8team/java -y
+    sudo apt-get update -y
+    sudo apt-get install oracle-java7-installer -y
+  EOH
+end
+
+execute 'add_32bit_support_on_64bit_os' do
+  command <<-EOH
+    sudo apt-get install -y ia32-libs
   EOH
 end
 
@@ -34,6 +59,7 @@ execute 'install_android_bundle' do
     wget http://dl.google.com/android/adt/22.6.2/adt-bundle-linux-x86_64-20140321.zip
     unzip adt-bundle-linux-x86_64-20140321.zip
     touch .adt-bundle
+    source ~/.bashrc
     android update sdk --no-ui
   EOH
   not_if do ::File.exists?('/home/vagrant/Development/android/.adt-bundle') end
