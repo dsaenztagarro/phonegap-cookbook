@@ -40,6 +40,12 @@ execute 'install_java' do
   EOH
 end
 
+execute 'add_32bit_support_on_64bit_os' do
+  command <<-EOH
+    sudo apt-get install -y ia32-libs
+  EOH
+end
+
 # http://developer.android.com/sdk/index.html
 # Download for other platforms | Adt bundle
 execute 'install_android_bundle' do
