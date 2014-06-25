@@ -40,7 +40,6 @@ execute 'install_java' do
   EOH
 end
 
-# TODO: refactor to execute only if android command doesnt exist
 # http://developer.android.com/sdk/index.html
 # Download for other platforms | Adt bundle
 execute 'install_android_bundle' do
@@ -53,10 +52,20 @@ execute 'install_android_bundle' do
     cd ~/Development/android
     wget http://dl.google.com/android/adt/22.6.2/adt-bundle-linux-x86_64-20140321.zip
     unzip adt-bundle-linux-x86_64-20140321.zip
-    touch .adt-bundle-linux-installed
+    touch .adt-bundle
     source ~/.bashrc
-    android update sdk -u
+    android update sdk --no-ui
   EOH
+  not_if do ::File.exists?('/home/vagrant/Development/android/.adt-bundle') end
+end
+
+# Added android sdk tools to PATH environment
+cookbook_file 'copy_bashrc' do
+  path '/home/vagrant/.bashrc'
+  source 'bashrc'
+  owner 'vagrant'
+  group 'vagrant'
+  action :create
 end
 
 node.default['nodejs']['version'] = '0.10.28'
