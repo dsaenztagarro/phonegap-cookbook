@@ -20,6 +20,8 @@ cookbook_file 'copy_bashrc' do
   action :create
 end
 
+include_recipe 'my-environment::locales'
+
 # Backend
 
 # Not valid for phonegap development
@@ -32,13 +34,19 @@ end
 #   EOH
 # end
 
-execute 'install_java' do
-  command <<-EOH
-    sudo add-apt-repository ppa:webupd8team/java -y
-    sudo apt-get update -y
-    sudo apt-get install oracle-java7-installer -y
-  EOH
-end
+# execute 'install_java' do
+#   command <<-EOH
+#     sudo add-apt-repository ppa:webupd8team/java -y
+#     sudo apt-get update -y
+#     sudo apt-get install oracle-java7-installer -y
+#   EOH
+# end
+
+node.default['java']['install_flavor'] = 'oracle'
+node.default['java']['jdk_version'] = '7'
+node.default['java']['oracle']['accept_oracle_download_terms'] = true
+
+include_recipe 'java'
 
 execute 'add_32bit_support_on_64bit_os' do
   command <<-EOH

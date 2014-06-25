@@ -11,3 +11,4 @@ depends 'my-environment'
 
 # Backend
 depends 'nodejs'
+depends 'java'
