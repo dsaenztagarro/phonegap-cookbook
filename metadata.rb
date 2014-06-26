@@ -12,3 +12,6 @@ depends 'my-environment'
 # Backend
 depends 'nodejs'
 depends 'java'
+
+# recipe loreal
+depends 'rvm'

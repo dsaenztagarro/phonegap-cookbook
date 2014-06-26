@@ -9,3 +9,6 @@ cookbook 'my-environment', path: '../my-environment'
 # Backend
 cookbook 'nodejs'
 cookbook 'java'
+
+# recipe loreal
+cookbook 'rvm'
