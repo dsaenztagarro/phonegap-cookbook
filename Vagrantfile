@@ -39,6 +39,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.memory = 3072
     vb.customize ["modifyvm", :id, "--usb", "on"]
     vb.customize ["modifyvm", :id, "--usbehci", "on"]
+    # Sony Ericsson
+    vb.customize ['usbfilter', 'add', '0', '--target', :id, '--name', 'Sony Ericsson', '--vendorid', '0x0fce', '--productid', '0x5156']
   end
 
   config.berkshelf.enabled = true
