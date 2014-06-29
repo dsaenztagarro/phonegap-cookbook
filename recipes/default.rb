@@ -7,10 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe 'my-environment'
-include_recipe 'my-environment::permissions'
-include_recipe 'my-environment::gui'
-
 # Added android sdk tools to PATH environment
 cookbook_file 'copy_bashrc' do
   path '/home/vagrant/.bashrc'
@@ -19,8 +15,6 @@ cookbook_file 'copy_bashrc' do
   group 'vagrant'
   action :create
 end
-
-include_recipe 'my-environment::locales'
 
 # Backend
 
@@ -72,13 +66,5 @@ include_recipe 'nodejs'
 execute 'install_js_utils' do
   command <<-EOH
     npm install -g grunt-cli bower phonegap
-  EOH
-end
-
-# Project settings
-
-execute 'install_node_utils' do
-  command <<-EOH
-    npm install -g express-generator
   EOH
 end
