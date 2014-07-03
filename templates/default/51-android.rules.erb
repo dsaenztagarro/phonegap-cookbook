@@ -1,0 +1,4 @@
+<% @devices.each do |device| %>
+  # <%= device.name %>
+  SUBSYSTEM=="usb", ATTR{idVendor}="<%= device.vendor_id %>", MODE="0666", GROUP="plugdev"
+<% end %>

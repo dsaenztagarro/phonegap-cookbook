@@ -16,6 +16,26 @@ cookbook_file 'copy_bashrc' do
   action :create
 end
 
+# Setup system to detect your development device
+template "/etc/udev/rules.d/51-android.rules" do
+  source "51-android.rules.erb"
+  mode 0440
+  owner "root"
+  group "root"
+  variables({
+    :devices => node[:phonegap][:devices],
+  })
+end
+
+
+execute 'after_install_rules' do
+  command <<-EOH
+    chmod a+r /etc/udev/rules.d/51-android.rules
+    addgroup plugdev
+    adduser vagrant plugdev
+  EOH
+end
+
 # Backend
 
 node.default['java']['install_flavor'] = 'oracle'
